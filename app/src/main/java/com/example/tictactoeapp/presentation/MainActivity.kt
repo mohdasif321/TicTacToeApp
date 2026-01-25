@@ -1,4 +1,4 @@
-package com.example.tictactoeapp
+package com.example.tictactoeapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,8 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.tictactoeapp.ui.theme.TicTacToeAppTheme
+import com.example.tictactoeapp.R
+import com.example.tictactoeapp.presentation.theme.ui.TicTacToeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +23,7 @@ class MainActivity : ComponentActivity() {
             TicTacToeAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     TicTacToeApp(
-                        name = "Tic Tac Toe",
+                        name = getString(R.string.app_name),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -42,6 +44,6 @@ fun TicTacToeApp(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     TicTacToeAppTheme {
-        TicTacToeApp("Tic Tac Toe")
+        TicTacToeApp(stringResource(R.string.app_name))
     }
 }
