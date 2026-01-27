@@ -39,7 +39,7 @@ class GameRuleUseCaseTest {
 
         val gameStatus = sut.getGameStatus(board)
 
-        Assert.assertFalse(gameStatus is GameState.GAMEWON)
+        Assert.assertTrue(gameStatus is GameState.GAMEWON)
     }
 
     @Test
