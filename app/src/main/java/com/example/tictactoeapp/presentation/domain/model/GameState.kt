@@ -1,4 +1,4 @@
-package com.example.tictactoeapp.presentation.domain
+package com.example.tictactoeapp.presentation.domain.model
 
 sealed class GameState() {
     object INPROGRESS: GameState()
