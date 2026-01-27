@@ -26,4 +26,17 @@ class GameBoardViewModelTest {
             cancel()
         }
     }
+
+    @Test
+    fun test_ResetBoard() = runTest {
+        val tappedCellByPlayer = 2
+
+        gameBoardViewModel.board.test {
+            gameBoardViewModel.play(tappedCellByPlayer)
+            Assert.assertTrue(awaitItem()[tappedCellByPlayer] == gameBoardViewModel.board.value[tappedCellByPlayer])
+            gameBoardViewModel.resetBoard()
+            Assert.assertTrue(awaitItem().reduce { acc, string -> acc + string } == "")
+            cancel()
+        }
+    }
 }

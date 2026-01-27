@@ -13,4 +13,9 @@ class GameBoardViewModel: ViewModel() {
     fun play(move: Int) {
         _board.value[move] = "X"
     }
+
+    fun resetBoard() {
+        val updatedBoard = _board.value.map { "" }
+        _board.value = updatedBoard.toMutableList()
+    }
 }
