@@ -1,7 +1,7 @@
 package com.example.tictactoeapp.presentation.viewmodel
 
 import app.cash.turbine.test
-import com.example.tictactoeapp.presentation.domain.model.GameState
+import com.example.tictactoeapp.domain.model.GameState
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
