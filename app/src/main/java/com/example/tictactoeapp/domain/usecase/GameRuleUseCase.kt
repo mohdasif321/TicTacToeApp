@@ -1,8 +1,9 @@
 package com.example.tictactoeapp.domain.usecase
 
 import com.example.tictactoeapp.domain.model.GameState
+import javax.inject.Inject
 
-class GameRuleUseCase {
+class GameRuleUseCase @Inject constructor(){
     fun getGameStatus(board: List<String>): GameState {
         val winningLines = listOf(
             listOf(0, 1, 2),

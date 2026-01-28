@@ -2,10 +2,13 @@ package com.example.tictactoeapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.tictactoeapp.domain.model.GameState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class GameBoardViewModel: ViewModel() {
+@HiltViewModel
+class GameBoardViewModel @Inject constructor(): ViewModel() {
 
     private var _board = MutableStateFlow(List(9) { "" }.toMutableList())
     val board: StateFlow<List<String>>
