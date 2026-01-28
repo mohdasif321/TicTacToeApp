@@ -52,7 +52,7 @@ class GameBoardViewModel @Inject constructor(val gameRuleUseCase: GameRuleUseCas
         }
     }
 
-    private fun getGameStatus(board: MutableList<String>) {
+    private fun getGameStatus(board: List<String>) {
         _gameStatus.value = gameRuleUseCase.getGameStatus(board)
     }
 }
