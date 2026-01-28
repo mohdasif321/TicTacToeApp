@@ -1,14 +1,18 @@
 package com.example.tictactoeapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.tictactoeapp.common.Player
 import com.example.tictactoeapp.domain.model.GameState
+import com.example.tictactoeapp.domain.usecase.GameRuleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameBoardViewModel @Inject constructor(): ViewModel() {
+class GameBoardViewModel @Inject constructor(val gameRuleUseCase: GameRuleUseCase): ViewModel() {
 
     private var _board = MutableStateFlow(List(9) { "" }.toMutableList())
     val board: StateFlow<List<String>>
@@ -18,8 +22,24 @@ class GameBoardViewModel @Inject constructor(): ViewModel() {
     val gameStatus: StateFlow<GameState>
         get() = _gameStatus
 
+    var currentPlayer = MutableStateFlow<Player>(Player.PLAYER_X)
+        private set
+
     fun play(move: Int) {
-        _board.value[move] = "X"
+        viewModelScope.launch {
+            val updatedBoard = _board.value.toMutableList().apply {
+                this[move] = if (currentPlayer.value == Player.PLAYER_X) "X" else "O"
+            }
+
+            _board.emit(updatedBoard)
+            getGameStatus(_board.value)
+            if (gameStatus.value is GameState.INPROGRESS)
+                if (currentPlayer.value == Player.PLAYER_X) {
+                    currentPlayer.value = Player.PLAYER_O
+                } else {
+                    currentPlayer.value = Player.PLAYER_X
+                }
+        }
     }
 
     fun resetBoard() {
@@ -28,6 +48,6 @@ class GameBoardViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun getGameStatus(board: MutableList<String>) {
-        _gameStatus.value = GameState.GAMEWON(listOf(1, 2, 3))
+        _gameStatus.value = gameRuleUseCase.getGameStatus(board)
     }
 }
