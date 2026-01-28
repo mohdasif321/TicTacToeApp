@@ -54,6 +54,23 @@ class GameBoardViewModelTest {
     }
 
     @Test
+    fun test_getGameStatus_INPROGRESS() {
+        val sut = GameBoardViewModel(gameRuleUseCase)
+        val board = gameBoardViewModel.board.value
+
+        every { gameRuleUseCase.getGameStatus(board) } returns GameState.INPROGRESS
+
+        val validateGetGameStatusMethod = GameBoardViewModel::class.java.getDeclaredMethod(
+            "getGameStatus",
+            List::class.java
+        )
+        validateGetGameStatusMethod.isAccessible = true
+        validateGetGameStatusMethod.invoke(sut,board)
+
+        Assert.assertTrue(sut.gameStatus.value is GameState.INPROGRESS)
+    }
+
+    @Test
     fun test_getGameStatus_GAMEWON() {
         val sut = GameBoardViewModel(gameRuleUseCase)
         val board = gameBoardViewModel.board.value
@@ -67,5 +84,21 @@ class GameBoardViewModelTest {
         validateGetGameStatusMethod.invoke(sut,board)
 
         Assert.assertTrue(sut.gameStatus.value is GameState.GAMEWON)
+    }
+
+    @Test
+    fun test_isGameWon_DRAW() {
+        val sut = GameBoardViewModel(gameRuleUseCase)
+        val board = gameBoardViewModel.board.value
+
+        every { gameRuleUseCase.getGameStatus(board) } returns GameState.GAMEDRAW
+        val validateGetGameStatusMethod = GameBoardViewModel::class.java.getDeclaredMethod(
+            "getGameStatus",
+            List::class.java
+        )
+        validateGetGameStatusMethod.isAccessible = true
+        validateGetGameStatusMethod.invoke(sut,board)
+
+        Assert.assertTrue(sut.gameStatus.value is GameState.GAMEDRAW)
     }
 }
