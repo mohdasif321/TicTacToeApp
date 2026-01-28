@@ -43,8 +43,13 @@ class GameBoardViewModel @Inject constructor(val gameRuleUseCase: GameRuleUseCas
     }
 
     fun resetBoard() {
-        val updatedBoard = _board.value.map { "" }
-        _board.value = updatedBoard.toMutableList()
+        viewModelScope.launch {
+            val updatedBoard = _board.value.toMutableList().map { "" }
+
+            _board.emit(updatedBoard.toMutableList())
+            _gameStatus.value = GameState.INPROGRESS
+            currentPlayer.value = Player.PLAYER_X
+        }
     }
 
     private fun getGameStatus(board: MutableList<String>) {
